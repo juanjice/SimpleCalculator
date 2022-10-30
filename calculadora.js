@@ -1,6 +1,10 @@
 $(document).ready(function () {
   $("#del").on("click",function(){$("#output").val($("#output").val().slice(0,-1))})
-  $(".imp").on("click",function(){$("#output").val($("#output").val() + $(this).val());});
+  $(".imp").on("click",function(){
+    let val;
+    $(this).val()=="π" ? val=Math.PI : val=$(this).val();
+    $("#output").val($("#output").val() + val);
+  });
   $("#clear").on("click", function () { $("#output").val("");});
   $(".oper").on("click", function () {
     const ultimo = $("#output").val().split("")[
@@ -11,7 +15,7 @@ $(document).ready(function () {
       $("#output").val("");
       correcto = false;
     }
-    if (["-", "+", "*", "/"].includes(ultimo) && $(this).val() != "-") {
+    if (["-", "+", "*", "/","^"].includes(ultimo) && $(this).val() != "-") {
       $("#output").val(
         $("#output")
           .val()
@@ -35,7 +39,7 @@ $(document).ready(function () {
           numero += out[i];
           es_num = true;
         }
-        if ((out[i] == "-") & ["*", "-", "+", "/"].includes(out[i - 1])) {
+        if ((out[i] == "-") & ["*", "-", "+", "/","^"].includes(out[i - 1])) {
           numero += out[i];
           es_num = true;
         }
@@ -80,9 +84,14 @@ $(document).ready(function () {
       case "*":
         return prev_numero * post_numero;
         break;
+        case "^":
+            return Math.pow(prev_numero,post_numero);
+        
       default:
         return prev_numero + post_numero;
         break;
+      
+
     }
   }
   $("#output").keypress(function(e){
